@@ -90,6 +90,14 @@ pushd _build_wasm
     export LINUX_BUILD_DIR=$(realpath ..)/_build_linux
     export WASM_BUILD_DIR=$(pwd)
 
+    # Ensure R's configure detects Cairo's FreeType font support
+    # (CAIRO_HAS_FT_FONT) during cross-compilation. Without these,
+    # configure can't find cairo.pc and the compile test fails silently,
+    # causing R to fall back to Cairo's toy font API which ignores font sizes.
+    export PKG_CONFIG_PATH="${PREFIX}/lib/pkgconfig:${PREFIX}/share/pkgconfig"
+    export CAIRO_CFLAGS="$(pkg-config --cflags cairo cairo-ft 2>/dev/null || echo "-I${PREFIX}/include/cairo -I${PREFIX}/include")"
+    export CAIRO_LIBS="$(pkg-config --libs cairo cairo-ft 2>/dev/null || echo "-L${PREFIX}/lib -lcairo -lfreetype -lfontconfig")"
+
     # NOTE: the host and build systems are explicitly set to enable the cross-
     # compiling options even though it's not fully supported.
     # Otherwise, it assumes it's not cross-compiling.

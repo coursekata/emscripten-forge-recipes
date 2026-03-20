@@ -113,7 +113,7 @@ CFLAGS="${OPT_FLAG} -fPIC -fwasm-exceptions -sSUPPORT_LONGJMP=wasm"
 ## options (such as defines) for the C preprocessor and compiler.
 ## If unset defaults to '-I/usr/local/include', with '-I/sw/include'
 ## prepended on systems using Fink with root '/sw'.
-CPPFLAGS="${OPT_FLAG} -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -I$PREFIX/include"
+CPPFLAGS="${OPT_FLAG} -fwasm-exceptions -sSUPPORT_LONGJMP=wasm -I$PREFIX/include -I$PREFIX/include/freetype2"
 
 ## The command which runs the Fortran compiler.
 ## Used for both fixed-form and free-form Fortran
