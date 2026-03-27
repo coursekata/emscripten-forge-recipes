@@ -110,7 +110,7 @@ CFLAGS="-fPIC"
 ## options (such as defines) for the C preprocessor and compiler.
 ## If unset defaults to '-I/usr/local/include', with '-I/sw/include'
 ## prepended on systems using Fink with root '/sw'.
-CPPFLAGS="-I$PREFIX/include -I$PREFIX/include/freetype2"
+CPPFLAGS="-I$PREFIX/include -I$PREFIX/include/freetype2 -DUSE_FC=1"
 
 ## The command which runs the Fortran compiler.
 ## Used for both fixed-form and free-form Fortran
