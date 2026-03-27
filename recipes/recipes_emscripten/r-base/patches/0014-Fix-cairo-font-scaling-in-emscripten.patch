@@ -1,0 +1,24 @@
+--- a/src/library/grDevices/src/cairo/cairoFns.c
++++ b/src/library/grDevices/src/cairo/cairoFns.c
+@@ -1903,14 +1903,14 @@
+ 	else if (streql(family, "mono")) family = "Courier";
+     }
+-    /* check the cache first */
+-    cairo_face = Rc_findFont(family, face);
+-    if (!cairo_face) {
+-	cairo_face = FC_getFont(family, face - 1);
+-	if (!cairo_face) return; /* No message? */
+-	Rc_addFont(family, face, cairo_face);
+-    }
+-    cairo_set_font_face (xd->cc, cairo_face);
++    /* Bypass R font cache: create a fresh cairo_font_face_t each time.
++     * On emscripten-wasm32, cairo's scaled font cache does not invalidate
++     * when the font matrix changes, so cairo_set_font_size has no effect
++     * after the first call. Using a new face pointer forces a cache miss. */
++    cairo_face = FC_getFont(family, face - 1);
++    if (!cairo_face) return;
++    cairo_set_font_face(xd->cc, cairo_face);
++    cairo_font_face_destroy(cairo_face);
+     /* FIXME: this should really use cairo_set_font_matrix
+        if pixels are non-square on a screen device. */
+     cairo_set_font_size (xd->cc, size);
