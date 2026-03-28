@@ -13,7 +13,7 @@ source:
   sha256: 46452f7f5f800e10ad09c287c488a4f6d887c28ef14bcff4bae4f56e6ba57fce
 
 build:
-  number: 3
+  number: 4
   script: $R CMD INSTALL $R_ARGS .
 
 requirements:
