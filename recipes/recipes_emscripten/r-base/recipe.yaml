@@ -27,7 +27,7 @@ source:
   - patches/0014-Fix-cairo-font-scaling-in-emscripten.patch
 
 build:
-  number: 3
+  number: 4
 
   files:
     exclude:
