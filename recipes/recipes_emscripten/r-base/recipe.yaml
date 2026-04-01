@@ -1,6 +1,6 @@
 context:
   name: r-base
-  version: 4.5.3
+  version: 4.5.2
 
 package:
   name: ${{ name }}
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://cran.r-project.org/src/base/R-4/R-${{ version }}.tar.gz
-  sha256: aa5c1ed4293c7271ac513d654670356ac0e8a6ad5e42be014365d11150b5b8f2
+  sha256: 0d71ff7106ec69cd7c67e1e95ed1a3cee355880931f2eb78c530014a9e379f20
   patches:
   # https://github.com/IsabelParedes/r-source/tree/R-4.5.0-wasm
   - patches/0001-Add-emscripten-platform-to-configure-script.patch
@@ -24,9 +24,10 @@ source:
   - patches/0011-Remove-png-lib-from-bitmap-libs.patch
   - patches/0012-Use-linux-executables.patch
   - patches/0013-Use-source-files-when-installing.patch
+  - patches/0014-Fix-cairo-font-scaling-in-emscripten.patch
 
 build:
-  number: 1
+  number: 4
 
   files:
     exclude:
