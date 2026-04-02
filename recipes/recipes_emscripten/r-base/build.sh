@@ -117,9 +117,6 @@ popd
 # fontconfig can find its config, and add /fonts/ (where font-ttf-dejavu
 # installs) as a font directory.
 
-# Tell R where fontconfig's config lives at runtime
-echo 'FONTCONFIG_FILE=/etc/fonts/fonts.conf' >> "$PREFIX/lib/R/etc/Renviron.site"
-
 # Add /fonts/ to fontconfig's search path (DejaVu installs there)
 cat > "$PREFIX/etc/fonts/conf.d/99-wasm-fonts-dir.conf" <<'FCEOF'
 <?xml version="1.0"?>
