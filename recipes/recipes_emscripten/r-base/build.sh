@@ -117,13 +117,15 @@ popd
 # fontconfig can find its config, and add /fonts/ (where font-ttf-dejavu
 # installs) as a font directory.
 
-# Add /fonts/ to fontconfig's search path (DejaVu installs there)
-cat > "$PREFIX/etc/fonts/conf.d/99-wasm-fonts-dir.conf" <<'FCEOF'
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
-<fontconfig>
-  <dir>/fonts</dir>
-</fontconfig>
-FCEOF
+# Wasm expat can't resolve the fontconfig DOCTYPE URN, so strip it from
+# all config files. Also patch fonts.conf to use /fonts/ (where
+# font-ttf-dejavu installs) and add an absolute include for config.d/
+# (where DejaVu's family alias configs live).
+for f in "$PREFIX"/etc/fonts/conf.d/*.conf "$PREFIX"/etc/fonts/config.d/*.conf; do
+  [ -f "$f" ] && sed -i '/DOCTYPE/d' "$f"
+done
+sed -i '/DOCTYPE/d' "$PREFIX/etc/fonts/fonts.conf"
+sed -i 's|<dir>/usr/share/fonts</dir>|<dir>/fonts</dir>|' "$PREFIX/etc/fonts/fonts.conf"
+sed -i 's|<include ignore_missing="yes">conf.d</include>|<include ignore_missing="yes">/etc/fonts/conf.d</include>\n<include ignore_missing="yes">/etc/fonts/config.d</include>|' "$PREFIX/etc/fonts/fonts.conf"
 
 rm $PREFIX/lib/libFortranRuntime.a
