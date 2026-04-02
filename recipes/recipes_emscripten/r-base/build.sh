@@ -109,4 +109,24 @@ pushd _build_wasm
 )
 popd
 
+#-------------------------------------------------------------------------------
+# FONTCONFIG SETUP
+#-------------------------------------------------------------------------------
+# At runtime the WASM filesystem prefix is /, but fontconfig's compiled-in
+# config path points to the build host prefix. Set FONTCONFIG_FILE so
+# fontconfig can find its config, and add /fonts/ (where font-ttf-dejavu
+# installs) as a font directory.
+
+# Tell R where fontconfig's config lives at runtime
+echo 'FONTCONFIG_FILE=/etc/fonts/fonts.conf' >> "$PREFIX/lib/R/etc/Renviron.site"
+
+# Add /fonts/ to fontconfig's search path (DejaVu installs there)
+cat > "$PREFIX/etc/fonts/conf.d/99-wasm-fonts-dir.conf" <<'FCEOF'
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+<fontconfig>
+  <dir>/fonts</dir>
+</fontconfig>
+FCEOF
+
 rm $PREFIX/lib/libFortranRuntime.a

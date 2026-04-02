@@ -65,6 +65,7 @@ requirements:
   - pixman
   - expat
   - freetype
+  - font-ttf-dejavu >=2.37
   run_exports:
   - ${{ pin_subpackage("r-base", exact=True) }}
 
